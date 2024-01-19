@@ -2,7 +2,7 @@
 
 A website that displays the public Github repositories belonging to any specific user.
 
-[Website]("https://fyle-assignment-mauve.vercel.app/")
+[Website](https://fyle-assignment-mauve.vercel.app/)
 
 ## Features
 
