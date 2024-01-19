@@ -16,7 +16,7 @@ A website that displays the public Github repositories belonging to any specific
 
 - Fork the repository
 
-- In Git, CLI write the following commands
+- In Git CLI, write the following commands
 
 ```shell
 git clone https://github.com/prinshukumar22/Fyle-assignment.git
