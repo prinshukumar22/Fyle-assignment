@@ -1,10 +1,3 @@
-import { Octokit, App } from "https://esm.sh/octokit";
-
-const octokit = new Octokit({
-  auth: "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",
-});
-//
-//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
 
 const form = document.querySelector(".myForm");
 const input = document.querySelector(".input");
@@ -65,7 +58,7 @@ const showAll = (repos, user_data) => {
       p.classList.add("btn", "btn-info", "me-3");
       p.innerHTML = `${topic}`;
       topic_div.appendChild(p);
-    })
+    });
     card.appendChild(topic_div);
     repo_div.appendChild(card);
   });
@@ -75,31 +68,39 @@ const getRepos = async (username, per_page = 10, page = 1) => {
   try {
     displayLoader();
     user = username;
-    const repos = await octokit.request(`GET /users/${username}/repos`, {
-      username,
-      headers: {
-        "X-GitHub-Api-Version": "2022-11-28",
-        accept: "application/vnd.github+json",
-      },
-      per_page,
-      page
-    });
-    const user_detail = await octokit.request(`GET /users/${username}`, {
-      username,
-      headers: {
-        "X-GitHub-Api-Version": "2022-11-28",
-      },
-    });
-    return [repos.data, user_detail.data];
+    let response = await fetch(
+      `https://api.github.com/users/${username}/repos?type=public&per_page=${per_page}&page=${page}`
+    );
+    const repos = await response.json();
+    // const repos = await octokit.request(`GET /users/${username}/repos`, {
+    //   username,
+    //   headers: {
+    //     "X-GitHub-Api-Version": "2022-11-28",
+    //     accept: "application/vnd.github+json",
+    //   },
+    //   per_page,
+    //   page
+    // });
+    console.log(repos);
+    response = await fetch(`https://api.github.com/users/${username}`);
+    const user_detail = await response.json();
+    // const user_detail = await octokit.request(`GET /users/${username}`, {
+    //   username,
+    //   headers: {
+    //     "X-GitHub-Api-Version": "2022-11-28",
+    //   },
+    // });
+    console.log(user_detail);
+    return [repos, user_detail];
   } catch (err) {
     console.log("Error fetching repo", err);
   }
 };
 
-document.addEventListener('DOMContentLoaded', function() {
-  input.value = '';
+document.addEventListener("DOMContentLoaded", function () {
+  input.value = "";
   input.focus();
-  input2.value = '10';
+  input2.value = "10";
 });
 
 //console.log(searchRepo);
@@ -119,16 +120,13 @@ form.addEventListener("submit", (e) => {
     user_data = res[1];
     showAll(repos, user_data);
   });
-
 });
 
 page_list.addEventListener("click", (e) => {
   const val = parseInt(e.target.textContent);
   profile.innerHTML = "";
   repo_div.innerHTML = "";
-  getRepos(user, !page ? 10 : page, val).then(res => {
+  getRepos(user, !page ? 10 : page, val).then((res) => {
     showAll(res[0], res[1]);
   });
-})
-
-
+});
