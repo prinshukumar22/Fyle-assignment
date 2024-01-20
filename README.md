@@ -14,8 +14,6 @@ A website that displays the public Github repositories belonging to any specific
 
 - To run this application, you'll need Git installed on your computer.
 
-- Fork the repository
-
 - In Git CLI, write the following commands
 
 ```shell
